@@ -16,6 +16,7 @@ export default function App() {
   const [isPlaying, setIsPlaying]             = useState(false)
   const [lang, setLang]                       = useState('en')
   const [showBackTop, setShowBackTop]         = useState(false)
+  const [showMusicHint, setShowMusicHint]     = useState(false)
   const audioRef                              = useRef(null)
   const audioPausedForVideoRef                = useRef(false) // track if WE paused for video
   const fadeIntervalRef                       = useRef(null)  // current volume fade interval
@@ -53,6 +54,14 @@ export default function App() {
     }
   }, [loading])
 
+  // After the preloader finishes, nudge the user to play music for ~4s
+  useEffect(() => {
+    if (loading) return
+    const show = setTimeout(() => setShowMusicHint(true), 700) // wait for preloader fade-out
+    const hide = setTimeout(() => setShowMusicHint(false), 4700)
+    return () => { clearTimeout(show); clearTimeout(hide) }
+  }, [loading])
+
   // Show back-to-top button once user scrolls past ~80vh (rAF-throttled)
   useEffect(() => {
     let ticking = false
@@ -79,6 +88,7 @@ export default function App() {
   }
 
   const toggleAudio = useCallback(() => {
+    setShowMusicHint(false)
     const audio = getOrCreateAudio()
     if (isPlaying) {
       audio.pause()
@@ -209,6 +219,22 @@ export default function App() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
           </svg>
         </button>
+
+        {/* Music hint — appears briefly after the preloader, points to the audio button */}
+        <div
+          className={`fixed bottom-8 right-20 z-40 flex items-center gap-2 transition-all duration-500 ${
+            showMusicHint ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-3 pointer-events-none'
+          }`}
+        >
+          <div className="bg-f1-card border border-mint/40 rounded-lg px-3 py-2 shadow-[0_0_20px_rgba(45,239,208,0.2)] max-w-[200px]">
+            <p className="font-heading text-xs text-white leading-snug">
+              {lang === 'id'
+                ? 'Putar musik untuk pengalaman terbaik'
+                : 'Play music for the best experience'}
+            </p>
+          </div>
+          <span className="text-mint text-lg animate-pulse">→</span>
+        </div>
 
         <AudioControl isPlaying={isPlaying} onToggle={toggleAudio} />
       </div>

@@ -80,23 +80,16 @@ export default function About({ lang }) {
 
           {/* Driver card */}
           <Reveal direction="right" duration={2}>
-            <div className="card-f1 relative overflow-hidden h-full min-h-[360px] md:min-h-[420px] bg-gradient-to-b from-f1-black via-[#0c2e2a] to-f1-black card-f1-glow shimmer-card">
-              {/* Photo — right side, subject smaller; left edge feathered to blend into the green card */}
+            <div className="card-f1 relative overflow-hidden h-full min-h-[360px] md:min-h-[420px] bg-f1-black card-f1-glow shimmer-card">
+              {/* Photo — full bleed (its own green gradient fills the card) */}
               <img
                 src="/assets/images/driver-photo.png"
                 alt="Erlangga"
-                className="absolute bottom-0 right-0 h-[88%] w-[55%] object-cover object-top filter contrast-[1.05] z-0"
-                style={{
-                  WebkitMaskImage:
-                    'linear-gradient(to right, transparent 0%, #000 18%), linear-gradient(to top, transparent 0%, #000 8%), linear-gradient(to bottom, transparent 0%, #000 24%)',
-                  maskImage:
-                    'linear-gradient(to right, transparent 0%, #000 18%), linear-gradient(to top, transparent 0%, #000 8%), linear-gradient(to bottom, transparent 0%, #000 24%)',
-                  WebkitMaskComposite: 'source-in',
-                  maskComposite: 'intersect',
-                }}
+                className="absolute inset-0 w-full h-full object-cover filter contrast-[1.05] z-0"
+                style={{ objectPosition: '65% 0%' }}
               />
               {/* Bottom fade into the card */}
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-f1-black via-f1-black/60 to-transparent z-[5] pointer-events-none" />
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-f1-black via-f1-black/70 to-transparent z-[5] pointer-events-none" />
 
               {/* Viewfinder brackets — staggered reveal */}
               <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-white/70 pointer-events-none z-20 animate-bracket-reveal" style={{ animationDelay: '0.1s' }} />
@@ -122,12 +115,12 @@ export default function About({ lang }) {
 
               {/* Name */}
               <div className="absolute top-12 left-7 z-20 max-w-[50%] md:max-w-[55%]">
+                <p className="mb-3 text-mint font-heading font-semibold text-[10px] md:text-xs tracking-widest uppercase">
+                  {lang === 'id' ? 'Videografer & Fotografer' : 'Videographer & Photographer'}
+                </p>
                 <h3 className="font-heading font-extrabold text-3xl md:text-4xl text-white leading-[0.95] uppercase">
                   Erlangga<br />Putra Widanta
                 </h3>
-                <p className="mt-3 text-mint font-heading font-semibold text-xs tracking-widest uppercase">
-                  {lang === 'id' ? 'Videografer & Fotografer' : 'Videographer & Photographer'}
-                </p>
               </div>
             </div>
           </Reveal>
