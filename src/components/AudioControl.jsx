@@ -27,10 +27,9 @@ export default function AudioControl({ isPlaying, onToggle }) {
           {bars.map((bar, i) => (
             <span
               key={i}
-              className="w-[3px] bg-mint origin-bottom"
+              className="w-[3px] bg-mint origin-bottom animate-equalizer"
               style={{
                 height: '100%',
-                animation: 'equalizer 1.2s ease-in-out infinite',
                 animationDelay: bar.delay,
               }}
             />

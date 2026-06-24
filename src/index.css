@@ -20,10 +20,11 @@
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   --animate-equalizer: equalizer 1.2s ease-in-out infinite;
-  @keyframes equalizer {
-    0%, 100% { transform: scaleY(0.25); }
-    50%       { transform: scaleY(1); }
-  }
+}
+
+@keyframes equalizer {
+  0%, 100% { transform: scaleY(0.25); }
+  50%       { transform: scaleY(1); }
 }
 
 html {
