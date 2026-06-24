@@ -131,6 +131,63 @@ Utility kustom: `card-f1` (kartu sudut asimetris), `tag-f1` (tag dengan notch), 
 
 ---
 
+## 🐙 Mengubah Repository & Push ke GitHub Sendiri
+
+Jika Anda ingin menyimpan kode ini ke akun GitHub pribadi Anda, ikuti langkah-langkah berikut:
+
+### 1. Hubungkan ke Repository Baru Anda
+Secara default, repository lokal Anda terhubung ke repository asli. Anda perlu mengubah URL remote ke repository baru Anda:
+
+```bash
+# 1. Hapus remote origin yang lama
+git remote remove origin
+
+# 2. Buat repository baru di GitHub pribadi Anda (misal: "my-portfolio")
+# Catatan: Jangan centang opsi "Add a README", "Add .gitignore", atau "Choose a license"
+
+# 3. Hubungkan repository lokal Anda ke repository baru Anda
+git remote add origin https://github.com/USERNAME_ANDA/NAMA_REPO_ANDA.git
+
+# 4. Ubah nama branch utama ke 'main' (jika belum)
+git branch -M main
+
+# 5. Push kode Anda ke repository baru Anda
+git push -u origin main
+```
+
+### 2. Mengubah Akun/Kredensial Git di Komputer
+Jika Anda perlu mengganti konfigurasi nama dan email git lokal yang digunakan untuk commit:
+
+```bash
+# Set secara global (untuk semua project di komputer)
+git config --global user.name "Nama Anda"
+git config --global user.email "emailanda@example.com"
+
+# Atau set secara lokal (hanya untuk folder project ini saja)
+git config user.name "Nama Anda"
+git config user.email "emailanda@example.com"
+```
+
+---
+
+## 🌐 Tutorial Deploy ke Vercel
+
+Aplikasi ini dapat di-deploy dengan sangat mudah dan gratis ke **Vercel** karena merupakan aplikasi web statis (Vite + React).
+
+### Cara 1: Deploy Otomatis via GitHub (Sangat Direkomendasikan)
+Dengan cara ini, website Anda akan otomatis ter-update setiap kali Anda melakukan `git push`.
+
+1. Masuk/Daftar ke [Vercel](https://vercel.com/) menggunakan akun GitHub Anda.
+2. Klik tombol **"Add New..."** lalu pilih **"Project"**.
+3. Di bagian **"Import Git Repository"**, cari dan pilih repository portofolio Anda yang sudah di-push ke GitHub pribadi.
+4. Pada halaman konfigurasi project (**Configure Project**):
+   - **Framework Preset:** Pilih **Vite** (biasanya terdeteksi secara otomatis).
+   - **Root Directory:** `./`
+   - **Build and Output Settings:** Biarkan default (`npm run build` untuk build command, dan `dist` untuk output directory).
+5. Klik **"Deploy"**.
+6. Tunggu sekitar 1–2 menit. Website portofolio Anda sudah online dan Anda akan mendapatkan link website gratis (misalnya `https://nama-project.vercel.app`).
+
+
 ## 👤 Kredit
 
 Dibuat oleh **Fariz Hafidz** · © 2026
