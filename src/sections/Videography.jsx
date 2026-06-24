@@ -59,6 +59,7 @@ export default function Videography({ onVideoOpen, onVideoClose }) {
               <VideoCard
                 {...video}
                 category={video.category[lang]}
+                description={video.description[lang]}
                 onClick={() => openVideo(video)}
               />
             </StaggerItem>
