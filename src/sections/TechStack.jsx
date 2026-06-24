@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import SectionHeader from '../components/SectionHeader'
 import Reveal from '../components/Reveal'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const row1Tools = [
   {
@@ -8,7 +9,7 @@ const row1Tools = [
     category: 'Editing',
     color: 'hover:border-blue-600/30 hover:shadow-[0_0_12px_rgba(37,99,235,0.1)]',
     icon: (
-      <div className="w-7 h-7 rounded bg-[#00041d] border border-[#00c8ff] flex items-center justify-center font-heading font-extrabold text-[10px] text-[#00c8ff] select-none shrink-0">
+      <div className="w-7 h-7 rounded bg-[#1a0a2e] border border-[#a78bfa] flex items-center justify-center font-heading font-extrabold text-[10px] text-[#a78bfa] select-none shrink-0">
         Pr
       </div>
     )
@@ -48,8 +49,8 @@ const row1Tools = [
     category: 'Design Layout',
     color: 'hover:border-blue-400/30 hover:shadow-[0_0_12px_rgba(96,165,250,0.1)]',
     icon: (
-      <div className="w-7 h-7 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center font-heading font-extrabold text-[10px] text-white select-none shrink-0">
-        C
+      <div className="w-7 h-7 rounded bg-[#03161a] border border-[#22d3ee] flex items-center justify-center font-heading font-extrabold text-[10px] text-[#22d3ee] select-none shrink-0">
+        Ca
       </div>
     )
   },
@@ -58,14 +59,8 @@ const row1Tools = [
     category: 'UI/UX Design',
     color: 'hover:border-pink-500/30 hover:shadow-[0_0_12px_rgba(236,72,153,0.1)]',
     icon: (
-      <div className="w-7 h-7 rounded bg-black border border-white/20 flex items-center justify-center select-none shrink-0">
-        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
-          <path fill="#1abcfe" d="M12 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0z" />
-          <path fill="#0acf83" d="M6 18a3 3 0 0 1 3-3h3v3a3 3 0 1 1-6 0z" />
-          <path fill="#ff7262" d="M12 3h3a3 3 0 1 1 0 6h-3V3z" />
-          <path fill="#f24e1e" d="M6 6a3 3 0 0 1 3-3h3v6H9a3 3 0 0 1-3-3z" />
-          <path fill="#a259ff" d="M6 12a3 3 0 0 1 3-3h3v6H9a3 3 0 0 1-3-3z" />
-        </svg>
+      <div className="w-7 h-7 rounded bg-[#1a0a2e] border border-[#c084fc] flex items-center justify-center font-heading font-extrabold text-[10px] text-[#c084fc] select-none shrink-0">
+        Fi
       </div>
     )
   }
@@ -77,10 +72,8 @@ const row2Tools = [
     category: 'Editing Mobile',
     color: 'hover:border-cyan-500/30 hover:shadow-[0_0_12px_rgba(6,182,212,0.1)]',
     icon: (
-      <div className="w-7 h-7 rounded bg-black border border-mint flex items-center justify-center select-none shrink-0">
-        <svg className="w-3.5 h-3.5 text-mint fill-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 6a3 3 0 100-6 3 3 0 000 6zm0 12a3 3 0 100-6 3 3 0 000 6zM20 4L8.5 12 20 20M8.12 12h11.76" />
-        </svg>
+      <div className="w-7 h-7 rounded bg-[#021a17] border border-[#2DEFD0] flex items-center justify-center font-heading font-extrabold text-[10px] text-[#2DEFD0] select-none shrink-0">
+        Cc
       </div>
     )
   },
@@ -99,10 +92,8 @@ const row2Tools = [
     category: 'Color Grading',
     color: 'hover:border-orange-500/30 hover:shadow-[0_0_12px_rgba(249,115,22,0.1)]',
     icon: (
-      <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-amber-600 via-red-500 to-blue-500 flex items-center justify-center select-none shrink-0">
-        <svg className="w-3 h-3 text-white fill-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-          <circle cx="12" cy="12" r="9" />
-        </svg>
+      <div className="w-7 h-7 rounded bg-[#1a1208] border border-[#e0903c] flex items-center justify-center font-heading font-extrabold text-[10px] text-[#e0903c] select-none shrink-0">
+        Dv
       </div>
     )
   },
@@ -111,10 +102,8 @@ const row2Tools = [
     category: 'AI Copywriting',
     color: 'hover:border-emerald-500/30 hover:shadow-[0_0_12px_rgba(16,185,129,0.1)]',
     icon: (
-      <div className="w-7 h-7 rounded bg-emerald-950/20 border border-emerald-500/80 flex items-center justify-center select-none shrink-0">
-        <svg className="w-3.5 h-3.5 text-emerald-400 fill-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 21l5.438-3.11M17 14.5a3.5 3.5 0 0 0 0-7H6.75A3.75 3.75 0 0 0 3 11.25M21 11.25a3.75 3.75 0 0 1-3.75 3.75H12" />
-        </svg>
+      <div className="w-7 h-7 rounded bg-[#04140f] border border-[#10a37f] flex items-center justify-center font-heading font-extrabold text-[8px] text-[#10a37f] select-none shrink-0 tracking-tighter">
+        GPT
       </div>
     )
   },
@@ -123,10 +112,8 @@ const row2Tools = [
     category: 'AI Assistant',
     color: 'hover:border-blue-500/30 hover:shadow-[0_0_12px_rgba(59,130,246,0.1)]',
     icon: (
-      <div className="w-7 h-7 rounded bg-blue-950/20 border border-blue-400/80 flex items-center justify-center select-none shrink-0">
-        <svg className="w-3.5 h-3.5 text-blue-400 fill-blue-400 animate-pulse" viewBox="0 0 24 24">
-          <path d="M12 2c0 5.523 4.477 10 10 10-5.523 0-10 4.477-10 10 0-5.523-4.477-10-10-10 5.523 0 10-4.477 10-10z" />
-        </svg>
+      <div className="w-7 h-7 rounded bg-[#0a1322] border border-[#6ea8fe] flex items-center justify-center font-heading font-extrabold text-[10px] text-[#6ea8fe] select-none shrink-0">
+        Gm
       </div>
     )
   },
@@ -135,14 +122,15 @@ const row2Tools = [
     category: 'Data Analytics',
     color: 'hover:border-blue-700/30 hover:shadow-[0_0_12px_rgba(29,78,216,0.1)]',
     icon: (
-      <div className="w-7 h-7 rounded-full bg-[#75AADB] flex items-center justify-center font-heading font-extrabold text-sm text-white select-none shrink-0 shadow-inner">
+      <div className="w-7 h-7 rounded bg-[#0a1622] border border-[#75AADB] flex items-center justify-center font-heading font-extrabold text-[10px] text-[#75AADB] select-none shrink-0">
         R
       </div>
     )
   }
 ]
 
-export default function TechStack({ lang }) {
+export default function TechStack() {
+  const { t } = useLanguage()
   // Duplicate tools arrays for seamless looping
   const duplicatedRow1 = [...row1Tools, ...row1Tools, ...row1Tools, ...row1Tools]
   const duplicatedRow2 = [...row2Tools, ...row2Tools, ...row2Tools, ...row2Tools]
@@ -151,8 +139,8 @@ export default function TechStack({ lang }) {
     <section id="tech-stack" className="py-16 md:py-24 bg-f1-black relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 flex flex-col gap-10">
         <SectionHeader
-          label={lang === 'id' ? 'Alat Kerja' : 'Tech Stack'}
-          title={lang === 'id' ? 'Peralatan & Teknologi' : 'Tools & Technologies'}
+          label={t.tech.label}
+          title={t.tech.title}
         />
 
         <Reveal direction="up">

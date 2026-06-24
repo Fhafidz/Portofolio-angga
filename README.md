@@ -1,22 +1,38 @@
 # Portfolio — Erlangga Putra Widanta
 
-Website portfolio satu halaman (single-page) bertema **Formula 1 / Mercedes-Petronas** untuk **Erlangga Putra Widanta**, seorang videografer & sinematografer. Dwibahasa (Indonesia / English), penuh animasi sinematik, dan responsif.
+Website portfolio satu halaman (single-page) bertema **Formula 1 / Mercedes-Petronas** untuk **Erlangga Putra Widanta** — video editor, photographer, & data analyst. Dwibahasa (Indonesia / English), penuh animasi sinematik, dan responsif.
 
 🔗 **Repo:** https://github.com/Fhafidz/Portofolio-angga
 
 ---
 
-## ✨ Fitur
+## 🚀 Cara Menjalankan (untuk user baru)
 
-- **Dwibahasa (ID / EN)** — switch bahasa instan via tombol di navbar.
-- **Preloader sinematik** — timecode kamera + progress bar ala alat editing video.
-- **Animasi motion** — fade-in, stagger, parallax, hover lift (powered by Framer Motion / motion.dev).
-- **Background Hero** — garis kecepatan ("speed streaks") mint yang bergerak diagonal.
-- **Audio kontrol** — backsound dengan fade-in/out, otomatis pause saat video lightbox dibuka.
-- **Galeri video** — kartu auto-play saat hover + lightbox cinema (Esc untuk tutup, scroll-lock, ARIA dialog).
-- **Tech stack marquee** — dua baris berjalan tak terbatas dengan hover-to-pause.
-- **Aksesibilitas** — label ARIA, focus state, keyboard support pada modal.
-- **SEO** — meta Open Graph & Twitter Card.
+**Prasyarat:** [Node.js](https://nodejs.org/) versi **18 atau lebih baru** (cek dengan `node -v`) dan npm.
+
+```bash
+# 1. Clone repository
+git clone https://github.com/Fhafidz/Portofolio-angga.git
+cd Portofolio-angga
+
+# 2. Install dependency
+npm install
+
+# 3. Jalankan dev server (hot reload)
+npm run dev
+```
+
+Buka browser ke alamat yang muncul di terminal — biasanya **http://localhost:5173**.
+
+### Perintah lain
+
+```bash
+npm run build     # Build produksi → folder dist/
+npm run preview   # Pratinjau hasil build secara lokal
+npm run lint      # Jalankan ESLint
+```
+
+> **Catatan media:** file video besar **tidak** disertakan di repo (di-`.gitignore`) — video diputar via **Google Drive** (lihat `src/data/videos.js`) dan foto via **Google Drive** (`src/data/photos.js`). Agar tampil, file di Drive harus disetel **"Anyone with the link" (Viewer)**.
 
 ---
 
@@ -28,31 +44,9 @@ Website portfolio satu halaman (single-page) bertema **Formula 1 / Mercedes-Petr
 | Build tool | Vite 8 |
 | Styling | Tailwind CSS v4 (`@tailwindcss/vite`) |
 | Animasi | Framer Motion (motion.dev) |
-| Dialog/alert | SweetAlert2 (via CDN) |
 | Linting | ESLint 10 |
 
----
-
-## 🚀 Menjalankan Proyek
-
-```bash
-# Install dependency
-npm install
-
-# Mode pengembangan (dev server + HMR)
-npm run dev
-
-# Build produksi
-npm run build
-
-# Pratinjau hasil build
-npm run preview
-
-# Lint
-npm run lint
-```
-
-Dev server default: `http://localhost:5173`
+Tanpa backend — sepenuhnya statis, siap di-deploy ke Vercel / Netlify / GitHub Pages.
 
 ---
 
@@ -64,31 +58,56 @@ portfolio-angga/
 │   └── assets/
 │       ├── audio/      # backsound
 │       ├── images/     # foto hero & driver
-│       ├── videos/     # karya video portfolio
 │       └── cv-erlangga-2026.pdf
 ├── src/
-│   ├── components/     # komponen UI reusable
+│   ├── components/          # komponen UI reusable
 │   │   ├── AudioControl.jsx
+│   │   ├── Backgrounds.jsx      # animasi garis diagonal (Hero + About)
 │   │   ├── Button.jsx
-│   │   ├── HeroBackgrounds.jsx  # animasi background Hero
 │   │   ├── Navbar.jsx
+│   │   ├── PhotoCard.jsx
 │   │   ├── Preloader.jsx
 │   │   ├── Reveal.jsx           # wrapper animasi scroll (Reveal/Stagger)
 │   │   ├── SectionHeader.jsx
 │   │   ├── stackIcons.jsx       # ikon badge tech-stack
 │   │   └── VideoCard.jsx
-│   ├── sections/       # bagian halaman
+│   ├── sections/           # bagian halaman
 │   │   ├── Hero.jsx
-│   │   ├── About.jsx           # "The Creator"
+│   │   ├── About.jsx
 │   │   ├── TechStack.jsx
-│   │   ├── Paddock.jsx         # galeri video
-│   │   └── Contact.jsx         # "Radio Check"
-│   ├── App.jsx         # state global (loading, audio, bahasa) + footer
-│   ├── main.jsx        # entry point
-│   └── index.css       # tema Tailwind + utility kustom
-├── index.html          # meta SEO, fonts, SweetAlert CDN
+│   │   ├── Videography.jsx      # "Project's" — portofolio video
+│   │   ├── Photography.jsx      # "Project's" — galeri foto (preview)
+│   │   ├── PhotographyPage.jsx  # halaman penuh "All Photos"
+│   │   └── Contact.jsx
+│   ├── data/               # data konten (terpisah dari komponen)
+│   │   ├── videos.js           # daftar video (Google Drive)
+│   │   └── photos.js           # daftar foto (Google Drive)
+│   ├── i18n/               # internasionalisasi (ID / EN)
+│   │   ├── translations.js     # semua teks dwibahasa
+│   │   └── LanguageContext.jsx # provider + hook useLanguage()
+│   ├── App.jsx             # layout utama + state audio + footer
+│   ├── main.jsx            # entry point (membungkus <LanguageProvider>)
+│   └── index.css           # tema Tailwind + utility kustom
+├── index.html              # meta SEO, fonts, dll
 └── vite.config.js
 ```
+
+---
+
+## 🌐 Bahasa (i18n)
+
+Teks dwibahasa terpusat di [`src/i18n/translations.js`](src/i18n/translations.js). Komponen mengambilnya lewat hook:
+
+```jsx
+import { useLanguage } from '../i18n/LanguageContext'
+
+function MyComponent() {
+  const { t, lang, toggleLang } = useLanguage()
+  return <h2>{t.about.title}</h2>
+}
+```
+
+Tombol globe di navbar memanggil `toggleLang()` untuk berganti ID ⇄ EN; seluruh teks otomatis ikut berubah.
 
 ---
 
@@ -100,7 +119,15 @@ Tema warna terpusat di [`src/index.css`](src/index.css) lewat blok `@theme` Tail
 - `--color-petronas` `#00D2BE` — warna brand Petronas
 - `--color-f1-black` `#0a0a0a` — background utama
 
-Utility kustom: `card-f1` (kartu sudut asimetris), `tag-f1` (tag dengan notch), efek shimmer, ghost number, viewfinder bracket, dll.
+Utility kustom: `card-f1` (kartu sudut asimetris), `tag-f1` (tag dengan notch), efek shimmer, viewfinder bracket, marquee, dll.
+
+---
+
+## ✏️ Mengganti / Menambah Konten
+
+- **Teks** → edit [`src/i18n/translations.js`](src/i18n/translations.js) (ID & EN).
+- **Video** → tambah/ubah item di [`src/data/videos.js`](src/data/videos.js) (pakai `driveId` dari link Google Drive).
+- **Foto** → tambah/ubah item di [`src/data/photos.js`](src/data/photos.js). Preview section menampilkan `previewPhotos`; halaman "All Photos" menampilkan semua `photos`.
 
 ---
 

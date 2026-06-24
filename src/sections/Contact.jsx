@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import SectionHeader from '../components/SectionHeader'
 import Reveal from '../components/Reveal'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const contactLinks = [
   {
@@ -36,7 +37,8 @@ const contactLinks = [
   }
 ]
 
-export default function Contact({ lang }) {
+export default function Contact() {
+  const { t } = useLanguage()
   const sectionRef = useRef(null)
 
   const { scrollYProgress } = useScroll({
@@ -52,8 +54,8 @@ export default function Contact({ lang }) {
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 flex flex-col gap-12 relative z-10">
         
         <SectionHeader
-          label={lang === 'id' ? 'Hubungi Saya' : 'Get in Touch'}
-          title={lang === 'id' ? 'Radio Check' : 'Radio Check'}
+          label={t.contact.label}
+          title={t.contact.title}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mt-4">
@@ -70,15 +72,13 @@ export default function Contact({ lang }) {
                 </motion.span>
               </h3>
               <p className="text-f1-silver font-body text-sm leading-relaxed max-w-sm">
-                {lang === 'id'
-                  ? 'Saluran komunikasi langsung. Silakan hubungi saya melalui media sosial, jejaring profesional, atau kirimkan pesan langsung melalui WhatsApp dan Email.'
-                  : 'Direct lines of communication. Reach out to me via social networks, professional channels, or send a direct message via WhatsApp and Email.'}
+                {t.contact.description}
               </p>
               
               {/* Main location details styled cleanly in the column */}
               <div className="flex flex-col gap-1.5 mt-4 pt-6 border-t border-white/10">
                 <span className="font-heading font-extrabold text-xs text-mint tracking-[0.2em] uppercase">
-                  {lang === 'id' ? 'LOKASI UTAMA' : 'MAIN LOCATION'}
+                  {t.contact.mainLocation}
                 </span>
                 <span className="font-heading font-bold text-lg text-white">
                   Kudus, Jawa Tengah, Indonesia

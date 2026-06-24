@@ -1,10 +1,10 @@
 /**
  * Shared tech-stack badge icons, keyed by tool name.
- * Used by VideoCard (grid) and the Paddock lightbox.
+ * Used by VideoCard (grid) and the Videography lightbox.
  */
 export const STACK_ICONS = {
   'Premiere Pro': (
-    <div className="w-3.5 h-3.5 rounded-[2px] bg-[#00041d] border border-[#00c8ff] flex items-center justify-center font-heading font-extrabold text-[6px] text-[#00c8ff] select-none shrink-0">
+    <div className="w-3.5 h-3.5 rounded-[2px] bg-[#1a0a2e] border border-[#a78bfa] flex items-center justify-center font-heading font-extrabold text-[6px] text-[#a78bfa] select-none shrink-0">
       Pr
     </div>
   ),
@@ -14,10 +14,8 @@ export const STACK_ICONS = {
     </div>
   ),
   'DaVinci': (
-    <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-amber-600 via-red-500 to-blue-500 flex items-center justify-center select-none shrink-0">
-      <svg className="w-2 h-2 text-white fill-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-        <circle cx="12" cy="12" r="10" />
-      </svg>
+    <div className="w-3.5 h-3.5 rounded-[2px] bg-[#1a1208] border border-[#e0903c] flex items-center justify-center font-heading font-extrabold text-[6px] text-[#e0903c] select-none shrink-0">
+      Dv
     </div>
   ),
   'Lightroom': (
@@ -36,10 +34,8 @@ export const STACK_ICONS = {
     </div>
   ),
   'CapCut': (
-    <div className="w-3.5 h-3.5 rounded-[2px] bg-black border border-mint flex items-center justify-center select-none shrink-0">
-      <svg className="w-2 h-2 text-mint fill-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 6a3 3 0 100-6 3 3 0 000 6zm0 12a3 3 0 100-6 3 3 0 000 6zM20 4L8.5 12 20 20M8.12 12h11.76" />
-      </svg>
+    <div className="w-3.5 h-3.5 rounded-[2px] bg-[#021a17] border border-[#2DEFD0] flex items-center justify-center font-heading font-extrabold text-[6px] text-[#2DEFD0] select-none shrink-0">
+      Cc
     </div>
   ),
 }

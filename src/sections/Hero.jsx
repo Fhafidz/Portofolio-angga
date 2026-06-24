@@ -1,25 +1,10 @@
-import { useRef, useState, useEffect } from 'react'
-import { motion, useScroll, useTransform, useSpring, animate } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import Button from '../components/Button'
-import { DiagonalStreaks } from '../components/HeroBackgrounds'
+import { useLanguage } from '../i18n/LanguageContext'
 
-// Counts up from 0 → `to` once `start` is true
-function Counter({ to, suffix = '+', start }) {
-  const [val, setVal] = useState(0)
-  useEffect(() => {
-    if (!start) return
-    const controls = animate(0, to, {
-      duration: 1.6,
-      delay: 0.7, // tunggu preloader selesai fade-out
-      ease: [0.22, 1, 0.36, 1],
-      onUpdate: (v) => setVal(Math.floor(v)),
-    })
-    return () => controls.stop()
-  }, [to, start])
-  return <span className="tabular-nums">{val}{suffix}</span>
-}
-
-export default function Hero({ lang, ready = true }) {
+export default function Hero({ ready = true }) {
+  const { t } = useLanguage()
   const sectionRef = useRef(null)
 
   // Scroll tracking scoped to the hero section
@@ -52,11 +37,8 @@ export default function Hero({ lang, ready = true }) {
       initial={{ opacity: 0 }}
       animate={ready ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-      className="relative min-h-screen bg-f1-black flex flex-col justify-center overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
     >
-      {/* Animated diagonal green speed streaks */}
-      <DiagonalStreaks />
-
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pt-28 pb-16 grid grid-cols-1 lg:grid-cols-12 items-center gap-10">
 
         {/* Left: Text — subtle upward drift on scroll */}
@@ -71,7 +53,7 @@ export default function Hero({ lang, ready = true }) {
             variants={item}
             className="text-mint font-heading font-semibold text-xs tracking-[0.3em] uppercase"
           >
-            {lang === 'id' ? 'Sinematografer · Fotografer · Editor' : 'Cinematographer · Photographer · Editor'}
+            {t.hero.greeting}
           </motion.span>
 
           <motion.h1
@@ -86,38 +68,13 @@ export default function Hero({ lang, ready = true }) {
             variants={item}
             className="text-f1-silver font-body text-base md:text-lg max-w-lg leading-relaxed"
           >
-            {lang === 'id'
-              ? 'Membawa cerita hidup lewat videografi sinematik dan fotografi — ritme potongan yang dinamis, komposisi yang kuat, dan presisi teknis di setiap frame.'
-              : 'Bringing stories to life through cinematic videography and photography — dynamic pacing, strong composition, and technical precision in every frame.'}
+            {t.hero.description}
           </motion.p>
 
           <motion.div variants={item} className="flex flex-wrap items-center gap-3 pt-2">
-            <Button href="#paddock" variant="mint">
-              {lang === 'id' ? 'Lihat Karya' : 'See Work'}
+            <Button href="#videography" variant="mint">
+              {t.hero.projectsBtn}
             </Button>
-            <Button href="#about" variant="ghost">
-              {lang === 'id' ? 'Profil Kreator' : 'The Creator'}
-            </Button>
-          </motion.div>
-
-          <motion.div
-            variants={item}
-            className="flex items-center gap-8 sm:gap-10 pt-6"
-          >
-            {[
-              { to: 10, label: lang === 'id' ? 'Proyek Video' : 'Video Projects' },
-              { to: 15, label: lang === 'id' ? 'Proyek Foto' : 'Photo Projects' },
-              { to: 5,  label: lang === 'id' ? 'Tahun Pengalaman' : 'Years Experience' },
-            ].map((stat) => (
-              <div key={stat.label} className="flex flex-col gap-1">
-                <span className="font-heading font-extrabold text-2xl md:text-3xl text-white leading-none">
-                  <Counter to={stat.to} start={ready} />
-                </span>
-                <span className="font-heading text-[10px] md:text-xs text-f1-silver uppercase tracking-wider">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
           </motion.div>
         </motion.div>
 
@@ -150,11 +107,16 @@ export default function Hero({ lang, ready = true }) {
 
             {/* Bottom gradient + tag */}
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-f1-black to-transparent" />
-            <div className="tag-f1 absolute bottom-5 left-5 bg-mint px-4 py-2">
-              <span className="font-heading font-bold text-sm text-f1-black uppercase tracking-wide">
-                Showreel 2026
+            <a
+              href="https://www.instagram.com/putrawidantaa/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tag-f1 absolute bottom-5 left-5 bg-mint px-4 py-2 hover:bg-white transition-colors"
+            >
+              <span className="font-heading font-bold text-sm text-f1-black tracking-wide">
+                @putrawidantaa
               </span>
-            </div>
+            </a>
           </motion.div>
         </motion.div>
       </div>

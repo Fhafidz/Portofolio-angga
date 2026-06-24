@@ -1,17 +1,18 @@
 import { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '../i18n/LanguageContext'
 
-export default function Navbar({ lang, setLang }) {
+export default function Navbar() {
+  const { lang, toggleLang, t } = useLanguage()
   const [active, setActive] = useState('#hero')
   const [open, setOpen] = useState(false)
 
   const links = useMemo(() => [
-    { label: 'Grid Start', href: '#hero' },
-    { label: lang === 'id' ? 'Kreator' : 'The Creator', href: '#about' },
-    { label: lang === 'id' ? 'Paddock' : 'The Paddock', href: '#paddock' },
-    { label: 'Parc Fermé', href: '#parc-ferme' },
-    { label: lang === 'id' ? 'Kontak' : 'Contact', href: '#contact' },
-  ], [lang])
+    { label: t.nav.home, href: '#hero' },
+    { label: t.nav.about, href: '#about' },
+    { label: t.nav.projects, href: '#videography' },
+    { label: t.nav.contact, href: '#contact' },
+  ], [t])
 
   useEffect(() => {
     const ids = links.map(l => l.href.replace('#', ''))
@@ -51,7 +52,7 @@ export default function Navbar({ lang, setLang }) {
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 h-16 flex items-center justify-between">
           {/* Logo */}
           <a href="#hero" className="group flex items-center gap-3 select-none">
-            <span className="font-heading font-extrabold text-white text-lg tracking-tight uppercase leading-none transition-transform duration-300 group-hover:scale-105">
+            <span className="font-heading font-extrabold text-white text-lg tracking-tight leading-none transition-transform duration-300 group-hover:scale-105">
               Goyy<span className="text-mint group-hover:drop-shadow-[0_0_8px_#00D2BE] transition-all">.</span>
             </span>
           </a>
@@ -85,7 +86,7 @@ export default function Navbar({ lang, setLang }) {
           <div className="flex items-center gap-4">
             {/* Language switcher (Globe Single Button) */}
             <button
-              onClick={() => setLang(lang === 'id' ? 'en' : 'id')}
+              onClick={toggleLang}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/15 hover:border-mint text-xs font-heading font-bold text-white hover:text-mint transition-all duration-300 cursor-pointer"
               aria-label="Switch Language"
             >
@@ -97,12 +98,6 @@ export default function Navbar({ lang, setLang }) {
               <span>{lang === 'id' ? 'ID' : 'EN'}</span>
             </button>
 
-            <a
-              href="#paddock"
-              className="hidden md:inline-flex items-center gap-2 px-5 py-2 tag-f1 bg-mint text-f1-black font-heading font-bold text-sm hover:bg-white transition-colors"
-            >
-              Showreel →
-            </a>
             <button
               onClick={() => setOpen(o => !o)}
               aria-label="Toggle menu"
@@ -136,10 +131,10 @@ export default function Navbar({ lang, setLang }) {
               </a>
             </li>
           ))}
-          <li className="flex items-center justify-between pt-4 border-t border-white/10">
+          <li className="flex items-center pt-4 border-t border-white/10">
             {/* Language switcher (Mobile Single Button) */}
             <button
-              onClick={() => setLang(lang === 'id' ? 'en' : 'id')}
+              onClick={toggleLang}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/15 text-xs font-heading font-bold text-white cursor-pointer"
               aria-label="Switch Language"
             >
@@ -150,14 +145,6 @@ export default function Navbar({ lang, setLang }) {
               </svg>
               <span>{lang === 'id' ? 'ID' : 'EN'}</span>
             </button>
-
-            <a
-              href="#paddock"
-              onClick={() => setOpen(false)}
-              className="inline-flex items-center gap-2 px-5 py-2 tag-f1 bg-mint text-f1-black font-heading font-bold text-sm"
-            >
-              Showreel →
-            </a>
           </li>
         </ul>
       </div>

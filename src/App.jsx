@@ -7,15 +7,19 @@ import Preloader from './components/Preloader'
 import Hero from './sections/Hero'
 import About from './sections/About'
 import TechStack from './sections/TechStack'
-import Paddock from './sections/Paddock'
-import Gallery from './sections/Gallery'
+import Videography from './sections/Videography'
+import Photography from './sections/Photography'
+import PhotographyPage from './sections/PhotographyPage'
 import Contact from './sections/Contact'
+import { DiagonalStreaks } from './components/Backgrounds'
+import { useLanguage } from './i18n/LanguageContext'
 
 export default function App() {
+  const { t } = useLanguage()
   const [loading, setLoading]                 = useState(true)
   const [isPlaying, setIsPlaying]             = useState(false)
-  const [lang, setLang]                       = useState('en')
   const [showBackTop, setShowBackTop]         = useState(false)
+  const [galleryOpen, setGalleryOpen]         = useState(false)
   const [showMusicHint, setShowMusicHint]     = useState(false)
   const audioRef                              = useRef(null)
   const audioPausedForVideoRef                = useRef(false) // track if WE paused for video
@@ -100,7 +104,7 @@ export default function App() {
     setIsPlaying(true)
   }, [isPlaying, fadeInAudio])
 
-  // Called by Paddock when lightbox video opens — pause audio
+  // Called by Videography when lightbox video opens — pause audio
   const handleVideoOpen = useCallback(() => {
     if (isPlaying && audioRef.current) {
       audioRef.current.pause()
@@ -109,7 +113,7 @@ export default function App() {
     }
   }, [isPlaying])
 
-  // Called by Paddock when lightbox video closes — resume if we paused it
+  // Called by Videography when lightbox video closes — resume if we paused it
   const handleVideoClose = useCallback(() => {
     if (audioPausedForVideoRef.current && audioRef.current) {
       audioRef.current.volume = 0
@@ -121,38 +125,37 @@ export default function App() {
   }, [fadeInAudio])
 
   // Footer nav — same labels as Navbar
-  const footerNav = lang === 'id'
-    ? [
-        { label: 'Grid Start', href: '#hero' },
-        { label: 'Kreator',    href: '#about' },
-        { label: 'Paddock',    href: '#paddock' },
-        { label: 'Parc Fermé', href: '#parc-ferme' },
-        { label: 'Kontak',     href: '#contact' },
-      ]
-    : [
-        { label: 'Grid Start', href: '#hero' },
-        { label: 'The Creator', href: '#about' },
-        { label: 'The Paddock', href: '#paddock' },
-        { label: 'Parc Fermé', href: '#parc-ferme' },
-        { label: 'Contact',    href: '#contact' },
-      ]
+  const footerNav = [
+    { label: t.nav.home,     href: '#hero' },
+    { label: t.nav.about,    href: '#about' },
+    { label: t.nav.projects, href: '#videography' },
+    { label: t.nav.contact,  href: '#contact' },
+  ]
 
   return (
     <>
       <AnimatePresence mode="wait">
         {loading && (
-          <Preloader key="preloader" lang={lang} onComplete={() => setLoading(false)} />
+          <Preloader key="preloader" onComplete={() => setLoading(false)} />
         )}
       </AnimatePresence>
 
       <div className="bg-f1-black min-h-screen">
-        <Navbar lang={lang} setLang={setLang} />
-        <Hero lang={lang} ready={!loading} />
-        <About lang={lang} />
-        <TechStack lang={lang} />
-        <Paddock lang={lang} onVideoOpen={handleVideoOpen} onVideoClose={handleVideoClose} />
-        <Gallery lang={lang} />
-        <Contact lang={lang} />
+        <Navbar />
+
+        {/* Shared animated streaks behind Hero + About so the lines connect across both */}
+        <div className="relative bg-gradient-to-b from-f1-black from-[55%] to-f1-dark-grey overflow-hidden">
+          <DiagonalStreaks />
+          <div className="relative z-10">
+            <Hero ready={!loading} />
+            <About />
+          </div>
+        </div>
+
+        <TechStack />
+        <Videography onVideoOpen={handleVideoOpen} onVideoClose={handleVideoClose} />
+        <Photography onMore={() => setGalleryOpen(true)} />
+        <Contact />
 
         {/* Footer */}
         <footer className="bg-f1-black overflow-hidden">
@@ -207,6 +210,9 @@ export default function App() {
           </div>
         </footer>
 
+        {/* Full-screen photo gallery "page" */}
+        <PhotographyPage open={galleryOpen} onClose={() => setGalleryOpen(false)} />
+
         {/* Floating Back-to-Top button — appears after scrolling past hero */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -228,9 +234,7 @@ export default function App() {
         >
           <div className="bg-f1-card border border-mint/40 rounded-lg px-3 py-2 shadow-[0_0_20px_rgba(45,239,208,0.2)] max-w-[200px]">
             <p className="font-heading text-xs text-white leading-snug">
-              {lang === 'id'
-                ? 'Putar musik untuk pengalaman terbaik'
-                : 'Play music for the best experience'}
+              {t.footer.musicHint}
             </p>
           </div>
           <span className="text-mint text-lg animate-pulse">→</span>

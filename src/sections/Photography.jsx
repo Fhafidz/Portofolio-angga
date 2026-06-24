@@ -1,19 +1,13 @@
 import { useState, useCallback, useEffect } from 'react'
 import PhotoCard from '../components/PhotoCard'
 import SectionHeader from '../components/SectionHeader'
+import Button from '../components/Button'
 import { StaggerGroup, StaggerItem } from '../components/Reveal'
+import { previewPhotos as photos } from '../data/photos'
+import { useLanguage } from '../i18n/LanguageContext'
 
-// Galeri foto — sumber Google Drive.
-const photos = [
-  { driveId: '1gAVDS5n00_gr9c3cOzPCwemFuC6qDTmN', title: 'Pura Ulun Danu' },
-  { driveId: '1z73sxEWE5Rn3DlQzsqSRhMiY3uuI8tjK', title: 'Graduation Day' },
-  { driveId: '1idLHaBpk3_GtCyvgkYjtdTyD-gEIUYs1', title: 'Portrait Series' },
-  { driveId: '1XHShBcoS6RRJI--XkkYgJOb97xFj66B9', title: 'Cinematic Still' },
-  { driveId: '1J4Hws0BMykh4lU0fmVYkKpbxpA2OI-7E', title: 'Graduation Portrait' },
-  { driveId: '1_h1u_gGbUBRCpcQ-Fw48_gOYsg-_dqIQ', title: 'Silhouette Study' },
-]
-
-export default function Gallery({ lang }) {
+export default function Photography({ onMore }) {
+  const { t } = useLanguage()
   const [active, setActive] = useState(null)
 
   const openPhoto = useCallback((photo) => setActive(photo), [])
@@ -35,12 +29,12 @@ export default function Gallery({ lang }) {
   const fullSrc = active && (active.src || `https://lh3.googleusercontent.com/d/${active.driveId}=w2000`)
 
   return (
-    <section id="parc-ferme" className="py-20 md:py-28 bg-f1-black">
+    <section id="photography" className="py-20 md:py-28 bg-f1-black">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 flex flex-col gap-10">
 
         <SectionHeader
-          label={lang === 'id' ? 'Galeri Foto' : 'Photo Showcase'}
-          title="Parc Fermé"
+          label={t.photography.label}
+          title={t.photography.title}
         />
 
         <StaggerGroup className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6" stagger={0.07}>
@@ -50,6 +44,13 @@ export default function Gallery({ lang }) {
             </StaggerItem>
           ))}
         </StaggerGroup>
+
+        {/* More — opens the full photo gallery page */}
+        <div className="flex justify-center pt-2">
+          <Button variant="mint" onClick={onMore}>
+            {t.photography.moreBtn}
+          </Button>
+        </div>
       </div>
 
       {/* Lightbox */}

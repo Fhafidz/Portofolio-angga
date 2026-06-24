@@ -1,44 +1,15 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import VideoCard from '../components/VideoCard'
 import { STACK_ICONS } from '../components/stackIcons'
 import SectionHeader from '../components/SectionHeader'
 import Button from '../components/Button'
 import { StaggerGroup, StaggerItem } from '../components/Reveal'
+import { useLanguage } from '../i18n/LanguageContext'
+import { videos } from '../data/videos'
 
-export default function Paddock({ lang, onVideoOpen, onVideoClose }) {
+export default function Videography({ onVideoOpen, onVideoClose }) {
+  const { lang, t } = useLanguage()
   const [activeVideo, setActiveVideo] = useState(null)
-  const [visibleCount, setVisibleCount] = useState(3)
-
-  // Definisikan data video dengan multi-bahasa, deskripsi, dan tech stack
-  const videos = useMemo(() => [
-    {
-      driveId: '1k0jMjk7WMb3RnPLYFq5F-h5Uu8EulaPE',
-      title: 'After Movie Porsematik 2021',
-      category: lang === 'id' ? 'Dokumentasi' : 'Aftermovie',
-      description: lang === 'id'
-        ? 'Dokumentasi Aftermovie resmi ajang olahraga mahasiswa Porsematik 2021.'
-        : 'Official Aftermovie documentation of the student sports event Porsematik 2021.',
-      stack: ['Premiere Pro', 'After Effects']
-    },
-    {
-      driveId: '1xFOPyC2v0RA_IrGIy7qQWJBtLEBKgl2e',
-      title: 'Famgath Staff PT. Glory Industri',
-      category: lang === 'id' ? 'Komersial' : 'Corporate',
-      description: lang === 'id'
-        ? 'Dokumentasi Aftermovie acara Family Gathering karyawan PT. Glory Industri Semarang.'
-        : 'Aftermovie documentation of the corporate family gathering for PT. Glory Industri Semarang.',
-      stack: ['Premiere Pro', 'CapCut']
-    },
-    {
-      driveId: '17vFaxF1cATUBq4WDev5sKeSzZDYIb9re',
-      title: 'Kanwil BPN Yogyakarta',
-      category: lang === 'id' ? 'Komersial' : 'Documentary',
-      description: lang === 'id'
-        ? 'Video profil resmi Kantor Wilayah Badan Pertanahan Nasional (BPN) Daerah Istimewa Yogyakarta.'
-        : 'Official profile video of the Regional Office of the National Land Agency (BPN) Yogyakarta.',
-      stack: ['Premiere Pro', 'After Effects', 'CapCut']
-    }
-  ], [lang])
 
   const openVideo = useCallback((video) => {
     setActiveVideo(video)
@@ -63,51 +34,33 @@ export default function Paddock({ lang, onVideoOpen, onVideoClose }) {
     }
   }, [activeVideo, closeVideo])
 
-  const toggleVisible = useCallback(() => {
-    if (videos.length > 3) {
-      setVisibleCount(prev => prev === 3 ? videos.length : 3)
-    } else {
-      if (window.Swal) {
-        window.Swal.fire({
-          title: 'COMING SOON',
-          text: lang === 'id'
-            ? 'Karya video lainnya sedang dalam proses pasca-produksi!'
-            : 'More video projects are currently in post-production!',
-          icon: 'info',
-          background: '#1c1c1e',
-          color: '#ffffff',
-          confirmButtonColor: '#2DEFD0',
-          confirmButtonText: 'OK',
-          customClass: {
-            popup: 'card-f1 border border-white/10 font-heading',
-            title: 'text-mint font-heading font-extrabold',
-            confirmButton: 'tag-f1 text-f1-black font-heading font-bold'
-          }
-        })
-      }
-    }
-  }, [videos.length, lang])
-
   return (
-    <section id="paddock" className="py-20 md:py-28 bg-f1-dark-grey">
+    <section id="videography" className="py-20 md:py-28 bg-f1-dark-grey">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 flex flex-col gap-10">
 
         <SectionHeader
-          label={lang === 'id' ? 'Portofolio Video' : 'Video Portfolio'}
-          title={lang === 'id' ? 'The Paddock' : 'The Paddock'}
+          label={t.videography.label}
+          title={t.videography.title}
           action={
-            <Button variant="mint" onClick={toggleVisible}>
-              {videos.length > 3 && visibleCount !== 3
-                ? (lang === 'id' ? 'Tampilkan Lebih Sedikit' : 'Show Less')
-                : (lang === 'id' ? 'Selengkapnya' : 'Read More')}
+            <Button
+              variant="mint"
+              href="https://www.tiktok.com/@anggaputraaaz"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t.videography.moreBtn}
             </Button>
           }
         />
 
         <StaggerGroup className="grid grid-cols-1 md:grid-cols-3 gap-6" stagger={0.18}>
-          {videos.slice(0, visibleCount).map((video) => (
+          {videos.map((video) => (
             <StaggerItem key={video.driveId} className="w-full">
-              <VideoCard {...video} onClick={() => openVideo(video)} />
+              <VideoCard
+                {...video}
+                category={video.category[lang]}
+                onClick={() => openVideo(video)}
+              />
             </StaggerItem>
           ))}
         </StaggerGroup>
@@ -154,12 +107,12 @@ export default function Paddock({ lang, onVideoOpen, onVideoClose }) {
                   {activeVideo.title}
                 </div>
                 <span className="px-2.5 py-0.5 rounded bg-white/5 border border-white/5 font-heading font-extrabold text-[10px] text-mint uppercase tracking-wider w-max">
-                  {activeVideo.category}
+                  {activeVideo.category[lang]}
                 </span>
               </div>
 
               <p className="text-f1-silver font-body text-xs md:text-sm leading-relaxed">
-                {activeVideo.description}
+                {activeVideo.description[lang]}
               </p>
 
               {/* Tech Stack badges with logos */}
